@@ -3,14 +3,14 @@ package users
 import "habitTrackerApi/services/habits"
 
 type UserRepository interface {
-	CreateUser() error
+	CreateUser() (string, error)
 	GetUser(id string) (User, error)
 	DeleteUser(id string) error
 	UpdateUser(u User) error
 	GetAllUsers() []User
 }
 
-type User struct {
+type UserClient struct {
 	Id       string
 	Username string `json:"username"`
 	Email    string `json:"email"`
@@ -18,22 +18,22 @@ type User struct {
 	Habits   []habits.Habit
 }
 
-func CreateUser() {
+func (u *UserClient) CreateUser() (string, error) {
 
 }
 
-func DeleteUser() {
+func (u *UserClient) DeleteUser() {
 
 }
 
-func UpdateUser() {
+func (u *UserClient) UpdateUser() {
 
 }
 
-func GetUser() {
+func (u *UserClient) GetUser() {
 
 }
 
-func GetAllUsers() {
+func (u *UserClient) GetAllUsers() {
 
 }
