@@ -4,10 +4,10 @@ import "habitTrackerApi/services/habits"
 
 type UserRepository interface {
 	CreateUser() (string, error)
-	GetUser(id string) (User, error)
+	GetUser(id string) (UserClient, error)
 	DeleteUser(id string) error
-	UpdateUser(u User) error
-	GetAllUsers() []User
+	UpdateUser(u UserClient) error
+	GetAllUsers() []UserClient
 }
 
 type UserClient struct {
@@ -22,18 +22,18 @@ func (u *UserClient) CreateUser() (string, error) {
 
 }
 
-func (u *UserClient) DeleteUser() {
+func (u *UserClient) DeleteUser(id string) {
 
 }
 
-func (u *UserClient) UpdateUser() {
+func (u *UserClient) UpdateUser(user UserClient) {
 
 }
 
-func (u *UserClient) GetUser() {
+func (u *UserClient) GetUser() (UserClient, error) {
 
 }
 
-func (u *UserClient) GetAllUsers() {
+func (u *UserClient) GetAllUsers() []UserClient {
 
 }
