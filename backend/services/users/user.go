@@ -17,23 +17,3 @@ type UserClient struct {
 	Password string `json:"password"`
 	Habits   []habits.Habit
 }
-
-func (u *UserClient) CreateUser() (string, error) {
-
-}
-
-func (u *UserClient) DeleteUser(id string) {
-
-}
-
-func (u *UserClient) UpdateUser(user UserClient) {
-
-}
-
-func (u *UserClient) GetUser() (UserClient, error) {
-
-}
-
-func (u *UserClient) GetAllUsers() []UserClient {
-
-}
