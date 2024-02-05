@@ -3,11 +3,11 @@ package users
 import "habitTrackerApi/services/habits"
 
 type UserRepository interface {
-	CreateUser() (string, error)
+	CreateUser(u UserClient) (string, error)
 	GetUser(id string) (UserClient, error)
 	DeleteUser(id string) error
 	UpdateUser(u UserClient) error
-	GetAllUsers() []UserClient
+	GetAllUsers() ([]UserClient, error)
 }
 
 type UserClient struct {
@@ -17,3 +17,5 @@ type UserClient struct {
 	Password string `json:"password"`
 	Habits   []habits.Habit
 }
+
+// All User controllers here
