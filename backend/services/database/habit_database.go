@@ -11,6 +11,13 @@ type DatabaseHabitRepository struct {
 	Db *gorm.DB
 }
 
+// Create a new database habit repository
+func NewDatabaseHabitRepository(db *gorm.DB) *DatabaseHabitRepository {
+	return &DatabaseHabitRepository{
+		Db: db,
+	}
+}
+
 // create habit in database
 func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (string, error) {
 	habit.CreatedAt = time.Now()

@@ -10,23 +10,55 @@ type DatabaseUserRepository struct {
 	Db *gorm.DB
 }
 
-func (r *DatabaseUserRepository) CreateUser(u users.UserClient) (string, error) {
-
-	return u.Id, nil
+func NewDatabaseUserRepository(db *gorm.DB) *DatabaseUserRepository {
+	return &DatabaseUserRepository{
+		Db: db,
+	}
 }
 
-func (r *DatabaseUserRepository) DeleteUser(id string) {
-
+// Create user in database
+func (r *DatabaseUserRepository) CreateUser(user users.UserClient) (string, error) {
+	result := r.Db.Create(&user)
+	if result.Error != nil {
+		return "", result.Error
+	}
+	return user.Id, nil
 }
 
-func (r *DatabaseUserRepository) UpdateUser(user users.UserClient) {
-
+// Get a user
+func (r *DatabaseUserRepository) GetUser(id string) (users.UserClient, error) {
+	var user users.UserClient
+	result := r.Db.First(&user, "id = ?", id)
+	if result.Error != nil {
+		return users.UserClient{}, result.Error
+	}
+	return user, nil
 }
 
-func (r *DatabaseUserRepository) GetUser() (users.UserClient, error) {
-
+// Update user
+func (r *DatabaseUserRepository) UpdateUser(user users.UserClient) error {
+	result := r.Db.Save(&user)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
-func (r *DatabaseUserRepository) GetAllUsers() []users.UserClient {
+// Delete user
+func (r *DatabaseUserRepository) DeleteUser(id string) error {
+	result := r.Db.Delete(&users.UserClient{}, "id = ?", id)
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
+}
 
+// Get all users from database
+func (r *DatabaseUserRepository) GetAllUsers() ([]users.UserClient, error) {
+	var users []users.UserClient
+	result := r.Db.Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return users, nil
 }
