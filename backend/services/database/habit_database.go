@@ -20,6 +20,7 @@ func NewDatabaseHabitRepository(db *gorm.DB) *DatabaseHabitRepository {
 
 // create habit in database
 func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (string, error) {
+
 	habit.CreatedAt = time.Now()
 	habit.ExpiresAt = habit.CreatedAt.AddDate(0, 0, 30)
 

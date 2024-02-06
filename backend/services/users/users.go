@@ -1,6 +1,10 @@
 package users
 
-import "habitTrackerApi/services/habits"
+import (
+	"habitTrackerApi/services/habits"
+
+	"gorm.io/gorm"
+)
 
 type UserRepository interface {
 	CreateUser(u UserClient) (string, error)
@@ -11,11 +15,12 @@ type UserRepository interface {
 }
 
 type UserClient struct {
+	gorm.Model
 	Id       string
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-	Habits   []habits.Habit
+	Username string         `json:"username"`
+	Email    string         `json:"email"`
+	Password string         `json:"password"`
+	Habits   []habits.Habit `gorm:"foreignKey:UserID"`
 }
 
 // All User controllers here

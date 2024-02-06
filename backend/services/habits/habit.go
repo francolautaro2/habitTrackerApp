@@ -2,6 +2,8 @@ package habits
 
 import (
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // Habit Interface
@@ -15,6 +17,8 @@ type HabitRepository interface {
 
 // Habit structure
 type Habit struct {
+	gorm.Model
+	UserID    uint
 	ID        string    `json:"id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
