@@ -17,12 +17,12 @@ func NewDatabaseUserRepository(db *gorm.DB) *DatabaseUserRepository {
 }
 
 // Create user in database
-func (r *DatabaseUserRepository) CreateUser(user users.UserClient) (string, error) {
+func (r *DatabaseUserRepository) CreateUser(user users.UserClient) error {
 	result := r.Db.Create(&user)
 	if result.Error != nil {
-		return "", result.Error
+		return result.Error
 	}
-	return user.Id, nil
+	return nil
 }
 
 // Get a user

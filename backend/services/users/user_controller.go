@@ -2,6 +2,7 @@ package users
 
 import (
 	"github.com/gin-gonic/gin"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // Define a structure for user controllers
@@ -9,19 +10,31 @@ type UserController struct {
 	UserRepository UserRepository
 }
 
-// Controller for creating a user
+// Controller for create user
 func (controller *UserController) CreateUser(c *gin.Context) {
 	var user UserClient
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
 		return
 	}
-	id, err := controller.UserRepository.CreateUser(user)
+
+	// Password hash
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(500, gin.H{"error": "Failed to hash password"})
+		return
+	}
+	user.Password = string(hashedPassword)
+
+	// Llamar al método CreateUser del repositorio para guardar el nuevo usuario
+	err = controller.UserRepository.CreateUser(user)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to create user"})
 		return
 	}
-	c.JSON(201, gin.H{"id": id})
+
+	// Devolver el ID generado en la respuesta
+	c.JSON(201, gin.H{"id": user.ID})
 }
 
 // Controller for getting a user by ID

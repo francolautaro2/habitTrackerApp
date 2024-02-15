@@ -18,8 +18,7 @@ type HabitRepository interface {
 // Habit structure
 type Habit struct {
 	gorm.Model
-	UserID    uint
-	ID        string    `json:"id"`
+	UserID    uint      `json:"user_id"`
 	Name      string    `json:"name"`
 	CreatedAt time.Time `json:"created_at"`
 	ExpiresAt time.Time `json:"expires_at"`

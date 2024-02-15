@@ -7,7 +7,7 @@ import (
 )
 
 type UserRepository interface {
-	CreateUser(u UserClient) (string, error)
+	CreateUser(u UserClient) error
 	GetUser(id string) (UserClient, error)
 	DeleteUser(id string) error
 	UpdateUser(u UserClient) error
@@ -16,11 +16,10 @@ type UserRepository interface {
 
 type UserClient struct {
 	gorm.Model
-	Id       string
 	Username string         `json:"username"`
 	Email    string         `json:"email"`
 	Password string         `json:"password"`
-	Habits   []habits.Habit `gorm:"foreignKey:UserID"`
+	Habits   []habits.Habit `json:"habits" gorm:"foreignKey:UserID"`
 }
 
 // All User controllers here

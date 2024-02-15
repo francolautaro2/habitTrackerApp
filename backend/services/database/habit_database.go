@@ -19,16 +19,16 @@ func NewDatabaseHabitRepository(db *gorm.DB) *DatabaseHabitRepository {
 }
 
 // create habit in database
-func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (string, error) {
+func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (uint, error) {
 
 	habit.CreatedAt = time.Now()
 	habit.ExpiresAt = habit.CreatedAt.AddDate(0, 0, 30)
 
 	result := r.Db.Create(&habit)
 	if result.Error != nil {
-		return "", result.Error
+		return 0, result.Error
 	}
-	return habit.ID, nil
+	return habit.UserID, nil
 }
 
 // Get a Habit

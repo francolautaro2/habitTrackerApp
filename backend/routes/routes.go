@@ -1,13 +1,20 @@
 package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"habitTrackerApi/services/users"
 
-func RunRoutes(router *gin.Engine) {
-	// Rutas
-	//router.POST("/api/users/createUser", CreateUser)
-	//router.POST("/api/auth/login", Login)
-	//router.POST("/api/habits/createHabit", CreateHabit)
-	//router.GET("/api/habits/getOneHabit:id", GetHabit)
-	//router.PUT("/api/habits/updateHabit", PutHabit)
-	//router.DELETE("/api/habits/dateleHabit:id", DeleteHabit)
+	"github.com/gin-gonic/gin"
+)
+
+func RunRoutes(router *gin.Engine, userController *users.UserController) {
+	// Registers Users Routers
+
+	// Login Users Routers
+
+	// Users Routers
+	router.POST("/api/users", userController.CreateUser)
+	router.GET("/api/users/:id", userController.GetUser)
+	router.DELETE("/api/users/:id", userController.DeleteUser)
+	router.PUT("/api/users/:id", userController.UpdateUser)
+	router.GET("/api/users", userController.GetAllUsers)
 }
