@@ -12,6 +12,7 @@ type UserRepository interface {
 	DeleteUser(id string) error
 	UpdateUser(u UserClient) error
 	GetAllUsers() ([]UserClient, error)
+	GetUserByUsernameOrEmail(usernameOrEmail string) (UserClient, error)
 }
 
 type UserClient struct {
@@ -19,7 +20,5 @@ type UserClient struct {
 	Username string         `json:"username"`
 	Email    string         `json:"email"`
 	Password string         `json:"password"`
-	Habits   []habits.Habit `json:"habits" gorm:"foreignKey:UserID"`
+	Habits   []habits.Habit `json:"habits" gorm:"foreignKey:UserID"` // Especifica la clave foránea aquí
 }
-
-// All User controllers here

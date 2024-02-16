@@ -8,7 +8,7 @@ import (
 
 // Habit Interface
 type HabitRepository interface {
-	SaveHabit(habit Habit) (string, error)
+	SaveHabit(habit Habit) (uint, error)
 	GetHabit(id string) (Habit, error)
 	UpdateHabit(habit Habit) error
 	DeleteHabit(id string) error

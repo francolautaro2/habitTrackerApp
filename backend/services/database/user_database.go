@@ -62,3 +62,13 @@ func (r *DatabaseUserRepository) GetAllUsers() ([]users.UserClient, error) {
 	}
 	return users, nil
 }
+
+// Get User by email or username
+func (r *DatabaseUserRepository) GetUserByUsernameOrEmail(usernameOrEmail string) (users.UserClient, error) {
+	var user users.UserClient
+	result := r.Db.Where("username = ? OR email = ?", usernameOrEmail, usernameOrEmail).First(&user)
+	if result.Error != nil {
+		return users.UserClient{}, result.Error
+	}
+	return user, nil
+}
