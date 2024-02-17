@@ -1,8 +1,7 @@
 package database
 
 import (
-	"habitTrackerApi/services/habits"
-	"habitTrackerApi/services/users"
+	"habitTrackerApi/services/domains"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -20,7 +19,7 @@ func ConnectDb() (*gorm.DB, error) {
 
 func Migrate(db *gorm.DB) error {
 	// Migrate Models
-	if err := db.AutoMigrate(&users.UserClient{}, &habits.Habit{}); err != nil {
+	if err := db.AutoMigrate(&domains.UserClient{}, &domains.Habit{}); err != nil {
 		return err
 	}
 

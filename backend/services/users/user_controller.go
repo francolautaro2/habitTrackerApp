@@ -1,18 +1,20 @@
 package users
 
 import (
+	"habitTrackerApi/services/domains"
+
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
 )
 
 // Define a structure for user controllers
 type UserController struct {
-	UserRepository UserRepository
+	UserRepository domains.UserRepository
 }
 
 // Controller for create user
 func (controller *UserController) CreateUser(c *gin.Context) {
-	var user UserClient
+	var user domains.UserClient
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
 		return
@@ -61,7 +63,7 @@ func (controller *UserController) DeleteUser(c *gin.Context) {
 
 // Controller for updating a user
 func (controller *UserController) UpdateUser(c *gin.Context) {
-	var user UserClient
+	var user domains.UserClient
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(400, gin.H{"error": "Invalid request body"})
 		return

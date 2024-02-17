@@ -2,7 +2,7 @@ package auth
 
 import (
 	"errors"
-	"habitTrackerApi/services/users"
+	"habitTrackerApi/services/domains"
 	"net/http"
 	"time"
 
@@ -24,10 +24,10 @@ type LoginRequest struct {
 }
 
 type AuthController struct {
-	UserRepository users.UserRepository
+	UserRepository domains.UserRepository
 }
 
-func NewAuthController(userRepo users.UserRepository) *AuthController {
+func NewAuthController(userRepo domains.UserRepository) *AuthController {
 	return &AuthController{
 		UserRepository: userRepo,
 	}
@@ -108,7 +108,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		}
 		tokenString = tokenString[7:]
 
-		claims, err := verifyToken(tokenString)
+		claims, err := VerifyToken(tokenString)
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid authorization token"})
 			c.Abort()
@@ -125,7 +125,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	}
 }
 
-func verifyToken(tokenString string) (*CustomClaims, error) {
+func VerifyToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
@@ -139,4 +139,21 @@ func verifyToken(tokenString string) (*CustomClaims, error) {
 	}
 
 	return claims, nil
+}
+
+// Get the ID from the JWT Token
+func GetUserIDFromToken(c *gin.Context) (uint, error) {
+	// Get token from the header authorization
+	tokenString := c.GetHeader("Authorization")
+	if tokenString == "" {
+		return 0, errors.New("missing authorization token")
+	}
+
+	// Parser and verify the jwt token
+	claims, err := VerifyToken(tokenString)
+	if err != nil {
+		return 0, err
+	}
+	// Return id from the jwt token
+	return claims.UserID, nil
 }

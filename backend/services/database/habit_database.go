@@ -1,7 +1,7 @@
 package database
 
 import (
-	"habitTrackerApi/services/habits"
+	"habitTrackerApi/services/domains"
 	"time"
 
 	"gorm.io/gorm"
@@ -19,7 +19,7 @@ func NewDatabaseHabitRepository(db *gorm.DB) *DatabaseHabitRepository {
 }
 
 // create habit in database
-func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (uint, error) {
+func (r *DatabaseHabitRepository) SaveHabit(habit domains.Habit) (uint, error) {
 
 	habit.CreatedAt = time.Now()
 	habit.ExpiresAt = habit.CreatedAt.AddDate(0, 0, 30)
@@ -32,17 +32,17 @@ func (r *DatabaseHabitRepository) SaveHabit(habit habits.Habit) (uint, error) {
 }
 
 // Get a Habit
-func (r *DatabaseHabitRepository) GetHabit(id string) (habits.Habit, error) {
-	var habit habits.Habit
+func (r *DatabaseHabitRepository) GetHabit(id string) (domains.Habit, error) {
+	var habit domains.Habit
 	result := r.Db.First(&habit, "id = ?", id)
 	if result.Error != nil {
-		return habits.Habit{}, result.Error
+		return domains.Habit{}, result.Error
 	}
 	return habit, nil
 }
 
 // Update Habit
-func (r *DatabaseHabitRepository) UpdateHabit(habit habits.Habit) error {
+func (r *DatabaseHabitRepository) UpdateHabit(habit domains.Habit) error {
 	result := r.Db.Save(&habit)
 	if result.Error != nil {
 		return result.Error
@@ -52,7 +52,7 @@ func (r *DatabaseHabitRepository) UpdateHabit(habit habits.Habit) error {
 
 // Delete Habit
 func (r *DatabaseHabitRepository) DeleteHabit(id string) error {
-	result := r.Db.Delete(&habits.Habit{}, "id = ?", id)
+	result := r.Db.Delete(&domains.Habit{}, "id = ?", id)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -60,8 +60,8 @@ func (r *DatabaseHabitRepository) DeleteHabit(id string) error {
 }
 
 // Get all Habits from database
-func (r *DatabaseHabitRepository) GetAllHabits() ([]habits.Habit, error) {
-	var habits []habits.Habit
+func (r *DatabaseHabitRepository) GetAllHabits() ([]domains.Habit, error) {
+	var habits []domains.Habit
 	result := r.Db.Find(&habits)
 	if result.Error != nil {
 		return nil, result.Error
