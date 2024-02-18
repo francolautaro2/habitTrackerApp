@@ -126,18 +126,23 @@ func AuthMiddleware() gin.HandlerFunc {
 }
 
 func VerifyToken(tokenString string) (*CustomClaims, error) {
+	// Parsear el token JWT
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return jwtKey, nil
 	})
 	if err != nil || !token.Valid {
+		// Si hay un error al analizar el token o si el token no es válido, devolver un error
 		return nil, errors.New("invalid token")
 	}
 
+	// Verificar y obtener los claims del token
 	claims, ok := token.Claims.(*CustomClaims)
 	if !ok {
+		// Si los claims no son del tipo esperado, devolver un error
 		return nil, errors.New("invalid token claims")
 	}
 
+	// Devolver los claims si todo va bien
 	return claims, nil
 }
 
@@ -148,12 +153,13 @@ func GetUserIDFromToken(c *gin.Context) (uint, error) {
 	if tokenString == "" {
 		return 0, errors.New("missing authorization token")
 	}
-
+	tokenString = tokenString[7:]
 	// Parser and verify the jwt token
 	claims, err := VerifyToken(tokenString)
 	if err != nil {
 		return 0, err
 	}
+
 	// Return id from the jwt token
 	return claims.UserID, nil
 }

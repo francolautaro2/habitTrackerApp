@@ -26,5 +26,5 @@ func RunRoutes(router *gin.Engine, userController *users.UserController, authCon
 	router.GET("/api/habits/:id", auth.AuthMiddleware(), habitController.GetHabit)
 	router.DELETE("/api/habits/:id", auth.AuthMiddleware(), habitController.DeleteHabit)
 	router.PUT("/api/habits/:id", auth.AuthMiddleware(), habitController.UpdateHabit)
-	router.GET("/api/habits", auth.AuthMiddleware(), habitController.GetAllHabits)
+	router.GET("/api/allHabits", auth.AuthMiddleware(), habitController.GetAllHabits)
 }
