@@ -8,10 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+/*
+	ALL HTTP LOGIC HABITS CONTROLLERS
+*/
+
 type HabitController struct {
 	HabitRepository domains.HabitRepository
 }
 
+// Create habit
 func (controller *HabitController) CreateHabit(c *gin.Context) {
 	var habit domains.Habit
 	if err := c.BindJSON(&habit); err != nil {
@@ -27,6 +32,7 @@ func (controller *HabitController) CreateHabit(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"id": id})
 }
 
+// Get habit
 func (controller *HabitController) GetHabit(c *gin.Context) {
 	id := c.Param("id")
 	habit, err := controller.HabitRepository.GetHabit(id)
@@ -37,6 +43,7 @@ func (controller *HabitController) GetHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, habit)
 }
 
+// Delete habit
 func (controller *HabitController) DeleteHabit(c *gin.Context) {
 	id := c.Param("id")
 	err := controller.HabitRepository.DeleteHabit(id)
@@ -47,6 +54,7 @@ func (controller *HabitController) DeleteHabit(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Habit deleted successfully"})
 }
 
+// Update habit
 func (controller *HabitController) UpdateHabit(c *gin.Context) {
 	var habit domains.Habit
 	if err := c.BindJSON(&habit); err != nil {

@@ -7,6 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
+/*
+	DB LOGIC CONNECTION
+*/
+
 // Contect to database
 func ConnectDb() (*gorm.DB, error) {
 	dsn := "root:root1234@tcp(127.0.0.1:3306)/habittracker?charset=utf8mb4&parseTime=True&loc=Local"

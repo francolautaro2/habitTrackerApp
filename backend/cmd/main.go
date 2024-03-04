@@ -36,6 +36,7 @@ func main() {
 
 	// Create habit Repository instance for database
 	habitRepository := database.NewDatabaseHabitRepository(db)
+
 	// Create habit controller instance
 	habitController := &habits.HabitController{
 		HabitRepository: habitRepository,

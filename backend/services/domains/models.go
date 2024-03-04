@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// User interface
 type UserRepository interface {
 	CreateUser(u UserClient) error
 	GetUser(id string) (UserClient, error)
@@ -38,5 +39,5 @@ type UserClient struct {
 	Username string  `json:"username"`
 	Email    string  `json:"email"`
 	Password string  `json:"password"`
-	Habits   []Habit `json:"habits" gorm:"foreignKey:UserID"` // Especifica la clave foránea aquí
+	Habits   []Habit `json:"habits" gorm:"foreignKey:UserID"`
 }

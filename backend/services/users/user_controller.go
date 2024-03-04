@@ -7,6 +7,10 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+/*
+	ALL LOGIC HTTP USERS CONTROLLERS
+*/
+
 // Define a structure for user controllers
 type UserController struct {
 	UserRepository domains.UserRepository
@@ -28,14 +32,14 @@ func (controller *UserController) CreateUser(c *gin.Context) {
 	}
 	user.Password = string(hashedPassword)
 
-	// Llamar al método CreateUser del repositorio para guardar el nuevo usuario
+	// call User repository to save user
 	err = controller.UserRepository.CreateUser(user)
 	if err != nil {
 		c.JSON(500, gin.H{"error": "Failed to create user"})
 		return
 	}
 
-	// Devolver el ID generado en la respuesta
+	// Return ID in response
 	c.JSON(201, gin.H{"id": user.ID})
 }
 
