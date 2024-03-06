@@ -1,0 +1,55 @@
+/* Estilos para el contenedor principal */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Estilos para el formulario de inicio de sesión */
+.login-form {
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  padding: 90px; /* Aumentar el espacio interno para hacer la caja más grande */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* Alinear los elementos en una columna */
+  justify-content: center; /* Centrar verticalmente los elementos */
+  align-items: center; /* Centrar horizontalmente los elementos */
+}
+
+/* Estilos para los campos de entrada */
+.login-input {
+  width: 100%;
+  margin-bottom: 25px; /* Espacio adicional entre los campos */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Estilos para el botón de enviar */
+.login-button {
+  width: 100%;
+  padding: 15px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Estilos para el botón de enviar al pasar el mouse */
+.login-button:hover {
+  background-color: #0056b3;
+}
+
+/* Estilos para el mensaje de error */
+.login-error {
+  color: red;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.register-link {
+  margin-top: 30px;
+}

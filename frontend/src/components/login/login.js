@@ -1,52 +1,45 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
+import './login.css'; // Importar el archivo de estilos CSS desde la carpeta styles
 
-function Login({ onLogin }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const Login = () => {
+  const [formData, setFormData] = useState({
+    username_or_email: '',
+    password: ''
+  });
 
-  const handleLogin = () => {
-    // Authentication logic
-    if (username === 'franco' && password === '1234') {
-      setIsLoggedIn(true);
-      onLogin(); 
-    } else {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/api/login', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const token = response.data.token;
+      const decodedToken = jwtDecode(token);
+      console.log('Informacion del token: ', decodedToken); 
+      // Aquí puedes manejar la respuesta del servidor, como guardar el token JWT en el almacenamiento local
+    } catch (error) {
+      console.error('Error de inicio de sesión:', error);
     }
   };
 
-  if (isLoggedIn) {
-    return <Navigate to="/" />;
-  }
-
   return (
-    <div>
-      <h2>Iniciar sesión</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label htmlFor="username">Nombre de usuario:</label>
-          <input 
-            type="text" 
-            id="username" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input 
-            type="password" 
-            id="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
-        <button type="submit">Iniciar sesión</button>
+    <div className="login-container"> {/* Aplicar clase CSS para contenedor principal */}
+      <form className="login-form" onSubmit={handleSubmit}> {/* Aplicar clase CSS para formulario */}
+        <input className="login-input" type="text" name="username_or_email" placeholder="Usuario o email" value={formData.username_or_email} onChange={handleChange} />
+        <input className="login-input" type="password" name="password" placeholder="Contraseña" value={formData.password} onChange={handleChange} />
+        <button className="login-button" type="submit">Iniciar sesión</button>
+        <a href="/register" className="register-link">¿No tienes una cuenta? Regístrate aquí</a> {/* Añadir enlace de registro */}
       </form>
     </div>
   );
-}
+};
 
 export default Login;
